@@ -25,4 +25,21 @@ top2 <- aggregate(c2$r, by=list(c2$c), max)
 topboth <- merge(top1,top2, by="Group.1")
 topboth$minline <- apply(topboth[,2:3],1,min)
 
-plot(topboth$Group.1, topboth$minline, type="l")
+
+# plot(topboth$Group.1, topboth$minline, type="l")
+
+even <- seq(0,1000,50)
+odd <- seq(25,1000,50)
+
+snow <- expand.grid(even, odd)
+snow2 <- expand.grid(odd, even)
+
+ggplot()+  
+    scale_shape_identity() + 
+    labs(x = "", y="") + 
+    scale_y_continuous(breaks=NULL)+
+    scale_x_continuous(breaks=NULL)+
+    coord_cartesian(xlim = c(10, 990), ylim=c(10,990)) +
+    geom_point(data=snow, aes(x=Var1, y = Var2, shape=8))+
+    geom_point(data=snow2, aes(x=Var1, y = Var2, shape=8))+
+    geom_area(data=topboth, aes(x = topboth$Group.1,y = topboth$minline),position = 'stack', colour="white", show_guide=FALSE)
